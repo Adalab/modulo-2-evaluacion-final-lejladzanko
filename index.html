@@ -6,22 +6,24 @@
     <title>Buscador de series anime</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="page-series">
-    <div>
+<body>
+    <div class="main-container">
         <h2 class="page-title">Buscador de series anime</h2>
-        <form action="">
+        <form action="#" class="search-form">
             <input type="text" class="search-text js-search-text" name="search-text" id="search-text" placeholder="Busca tu serie favorita">
             <input type="submit" class="search js-search" name="search" id="search" value="Buscar">
-            <input type="submit" class="reset js-reset" name="reset" id="reset" value="Reset">
+            <input type="submit" class="reset js-reset" name="reset" id="reset" value="Reset"> 
         </form>
-        <section class="results">
-            <div class="container-series js-series"></div>
-            <h3 class="title-series">Resultados</h3>
-        </section>
-        <section class="favorites">
-            <h3 class="title-favorites">Series favoritas</h3>
-            <div class="container-favorites js-favorites"></div>
-        </section>
+        <div class="movies-container">
+            <section class="favorites">
+                <h3 class="title-favorites">Series favoritas</h3>
+                <div class="container-favorites js-favorites"></div>
+            </section>
+            <section class="results">
+                <h3 class="title-series">Resultados</h3>
+                <div class="container-series js-series"></div>
+            </section>
+        </div>
     </div>
     <script src="main.js" type="text/javascript"></script>
 </body>
