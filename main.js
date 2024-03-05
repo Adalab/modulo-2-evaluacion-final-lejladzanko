@@ -25,6 +25,8 @@ function handleAddFavorite(event) {
     favoritesList.push(seriesSelected);
     renderFavorites(favoritesList);
     localStorage.setItem("favorites", JSON.stringify(favoritesList));
+    //añadir otro color de fondo y fuente al seleccionar series como favorita
+    event.currentTarget.classList.add('favorite');
   }
 }
 

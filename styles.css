@@ -114,3 +114,9 @@ body {
 .remove-favorite:hover {
     background-color: #F38D68;
 }
+
+.favorite{
+    border: 5px solid #E28413; 
+  color: #FA7921; 
+  border-radius: 10px;
+}
