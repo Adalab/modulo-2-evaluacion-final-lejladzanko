@@ -3,6 +3,7 @@
 const animeAPIURL = "https://api.jikan.moe/v4/anime?q=";
 const searchInput = document.querySelector(".js-search-text");
 const searchButton = document.querySelector(".js-search");
+const resetButton = document.querySelector('.js-reset');
 const seriesResultsContainer = document.querySelector(".js-series");
 const favoritesResultsContainer = document.querySelector(".js-favorites");
 
@@ -10,41 +11,20 @@ let seriesList = [];
 let favoritesList = [];
 
 function handleAddFavorite(event) {
-  console.log(event.currentTarget);
-  console.log(event.currentTarget.id);
-  console.log(seriesList);
+  const seriesId = event.currentTarget.dataset.id;
 
   const seriesSelected = seriesList.find((seriesItem) => {
-    return event.currentTarget.id === seriesItem.mal_id.toString();
+    return seriesItem.mal_id.toString() === seriesId;
   });
 
   const indexInFavorites = favoritesList.findIndex((favoriteItem) => {
-    return favoriteItem.mal_id === parseInt(event.currentTarget.id);
+    return favoriteItem.mal_id === parseInt(seriesId);
   });
 
   if (indexInFavorites === -1) {
     favoritesList.push(seriesSelected);
     renderFavorites(favoritesList);
-
-    function handleAddFavorite(event) {
-      console.log(event.currentTarget);
-      console.log(event.currentTarget.id);
-      console.log(seriesList);
-
-      const seriesSelected = seriesList.find((seriesItem) => {
-        return event.currentTarget.id === seriesItem.mal_id.toString();
-      });
-
-      const indexInFavorites = favoritesList.findIndex((favoriteItem) => {
-        return favoriteItem.mal_id === parseInt(event.currentTarget.id);
-      });
-
-      if (indexInFavorites === -1) {
-        favoritesList.push(seriesSelected);
-        renderFavorites(favoritesList);
-        localStorage.setItem("favorites", JSON.stringify(favoritesList));
-      }
-    }
+    localStorage.setItem("favorites", JSON.stringify(favoritesList));
   }
 }
 
@@ -73,41 +53,61 @@ function renderFavorites(favorites) {
         <div class="favorite-item" data-id="${favorite.mal_id}">
             <img src="${favorite.images.jpg.large_image_url}">
             <h3>${favorite.title}</h3>
+            <button class="remove-favorite" data-id="${favorite.mal_id}">X</button>
         </div>
     `;
   }
   favoritesResultsContainer.innerHTML = content;
+
+  const removeFavoriteButtons = document.querySelectorAll(".remove-favorite");
+  for (const button of removeFavoriteButtons) {
+    button.addEventListener("click", handleRemoveFavorite);
+  }
+}
+
+function handleRemoveFavorite(event) {
+  const seriesId = event.currentTarget.dataset.id;
+  favoritesList = favoritesList.filter((favorite) => favorite.mal_id !== parseInt(seriesId));
+  renderFavorites(favoritesList);
+  localStorage.setItem("favorites", JSON.stringify(favoritesList));
 }
 
 const fetchSeriesData = () => {
-  seriesResultsContainer.innerHTML = "";
-  fetch(animeAPIURL)
+  const inputValue = searchInput.value.toLowerCase();
+
+  fetch(`${animeAPIURL}${inputValue}`)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       seriesList = data.data;
       renderSeries(seriesList);
       localStorage.setItem("series", JSON.stringify(seriesList));
     });
 };
 
-const seriesDataFromLocalStorage = JSON.parse(localStorage.getItem("series"));
-if (seriesDataFromLocalStorage !== null) {
-  seriesList = seriesDataFromLocalStorage;
-  renderSeries(seriesList);
-} else {
-  fetchSeriesData();
+const favoritesDataFromLocalStorage = JSON.parse(localStorage.getItem("favorites"));
+if (favoritesDataFromLocalStorage !== null) {
+  favoritesList = favoritesDataFromLocalStorage;
+  renderFavorites(favoritesList);
 }
 
 const handleSearch = (event) => {
   event.preventDefault();
-  const inputValue = searchInput.value.toLowerCase();
 
-  const filteredSeries = seriesList.filter((seriesItem) => {
-    return seriesItem.title.toLowerCase().includes(inputValue);
-  });
-
-  renderSeries(filteredSeries);
+  fetchSeriesData();
 };
 
 searchButton.addEventListener("click", handleSearch);
+
+resetButton.addEventListener("click", handleReset);
+
+function handleReset(event) {
+  event.preventDefault();
+
+  favoritesList = [];
+  renderFavorites(favoritesList);
+  seriesResultsContainer.innerHTML = "";
+  searchInput.value = "";
+
+  localStorage.removeItem("favorites");
+  localStorage.removeItem("series");
+}
