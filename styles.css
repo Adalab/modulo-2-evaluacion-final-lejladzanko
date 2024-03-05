@@ -62,7 +62,7 @@ body {
 
 .search:hover,
 .reset:hover {
-    background-color: #E57A44;
+    background-color: #F38D68;
 }
 
 .movies-container {
@@ -101,7 +101,7 @@ body {
 }
 
 .remove-favorite {
-    background-color: #EE6C4D;
+    background-color: #FF7F11;
     color: white;
     border: none;
     padding: 8px 16px;
