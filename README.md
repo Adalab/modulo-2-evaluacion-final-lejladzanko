@@ -1,4 +1,4 @@
-Buscador de Series Anime 🔍
+## Buscador de Series Anime 🔍
 ¡Bienvenido al Buscador de Series Anime! 📺
 
 Esta aplicación te permite explorar y descubrir tus series de anime favoritas. Con una interfaz fácil de usar y una amplia base de datos, encontrarás nuevas series para disfrutar en cualquier momento. 💻 
