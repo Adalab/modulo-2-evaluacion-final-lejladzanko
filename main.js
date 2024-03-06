@@ -11,44 +11,14 @@ const resetFavoritesButton = document.querySelector(".js-reset-favorites");
 let seriesList = [];
 let favoritesList = [];
 
-function handleAddFavorite(event) {
-  const seriesId = event.currentTarget.dataset.id;
+const favoritesDataFromLocalStorage = JSON.parse(
+  localStorage.getItem("favorites")
+);
 
-  const seriesSelected = seriesList.find((seriesItem) => {
-    return seriesItem.mal_id.toString() === seriesId;
-  });
-
-  const indexInFavorites = favoritesList.findIndex((favoriteItem) => {
-    return favoriteItem.mal_id === parseInt(seriesId);
-  });
-
-  if (indexInFavorites === -1) {
-    favoritesList.push(seriesSelected);
-    renderFavorites(favoritesList);
-    localStorage.setItem("favorites", JSON.stringify(favoritesList));
-    //añadir otro color de fondo y fuente al seleccionar series como favorita
-    event.currentTarget.classList.add("favorite");
-  }
+if (favoritesDataFromLocalStorage !== null) {
+  favoritesList = favoritesDataFromLocalStorage;
+  renderFavorites(favoritesList);
 }
-
-function renderSeries(series){
-  let content = "";
-  for (const seriesItem of series) {
-    const imageUrl = getImageUrl(seriesItem.images.jpg.large_image_url);
-    content += `
-        <div class="series-item" data-id="${seriesItem.mal_id}" id="${seriesItem.mal_id}">
-        <img src="${imageUrl}">
-              <h3 class="movie-name">${seriesItem.title}</h3>
-            </div>
-        `;
-  }
-  seriesResultsContainer.innerHTML = content;
-
-  const seriesItems = document.querySelectorAll(".series-item");
-  for (const seriesItem of seriesItems) {
-    seriesItem.addEventListener("click", handleAddFavorite);
-  }
-};
 
 function renderFavorites(favorites) {
   let content = "";
@@ -70,17 +40,26 @@ function renderFavorites(favorites) {
   }
 }
 
-function handleRemoveFavorite(event) {
-  const seriesId = event.currentTarget.dataset.id;
-  favoritesList = favoritesList.filter(
-    (favorite) => favorite.mal_id !== parseInt(seriesId)
-  );
-  renderFavorites(favoritesList);
-  document.getElementById(seriesId).classList.remove('favorite');
-  localStorage.setItem("favorites", JSON.stringify(favoritesList));
+function renderSeries(series) {
+  let content = "";
+  for (const seriesItem of series) {
+    const imageUrl = getImageUrl(seriesItem.images.jpg.large_image_url);
+    content += `
+        <div class="series-item" data-id="${seriesItem.mal_id}" id="${seriesItem.mal_id}">
+          <img src="${imageUrl}">
+          <h3 class="movie-name">${seriesItem.title}</h3>
+        </div>
+    `;
+  }
+  seriesResultsContainer.innerHTML = content;
+
+  const seriesItems = document.querySelectorAll(".series-item");
+  for (const seriesItem of seriesItems) {
+    seriesItem.addEventListener("click", handleAddFavorite);
+  }
 }
 
-const fetchSeriesData = () => {
+function fetchSeriesData() {
   const inputValue = searchInput.value.toLowerCase();
 
   fetch(`${animeAPIURL}${inputValue}`)
@@ -90,25 +69,54 @@ const fetchSeriesData = () => {
       renderSeries(seriesList);
       localStorage.setItem("series", JSON.stringify(seriesList));
     });
-};
-
-const favoritesDataFromLocalStorage = JSON.parse(
-  localStorage.getItem("favorites")
-);
-if (favoritesDataFromLocalStorage !== null) {
-  favoritesList = favoritesDataFromLocalStorage;
-  renderFavorites(favoritesList);
 }
 
-const handleSearch = (event) => {
+function getImageUrl(apiImageUrl) {
+  const missingImageUrl =
+    "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png";
+  const placeholderImageUrl =
+    "https://via.placeholder.com/210x295/ffffff/666666/?text=TV";
+  if (apiImageUrl === missingImageUrl) {
+    return placeholderImageUrl;
+  } else {
+    return apiImageUrl;
+  }
+}
+
+function handleAddFavorite(event) {
+  const seriesId = event.currentTarget.dataset.id;
+
+  const seriesSelected = seriesList.find((seriesItem) => {
+    return seriesItem.mal_id.toString() === seriesId;
+  });
+
+  const indexInFavorites = favoritesList.findIndex((favoriteItem) => {
+    return favoriteItem.mal_id === parseInt(seriesId);
+  });
+
+  if (indexInFavorites === -1) {
+    favoritesList.push(seriesSelected);
+    renderFavorites(favoritesList);
+    localStorage.setItem("favorites", JSON.stringify(favoritesList));
+    event.currentTarget.classList.add("favorite");
+  }
+}
+
+function handleRemoveFavorite(event) {
+  const seriesId = event.currentTarget.dataset.id;
+  favoritesList = favoritesList.filter(
+    (favorite) => favorite.mal_id !== parseInt(seriesId)
+  );
+  renderFavorites(favoritesList);
+  document.getElementById(seriesId).classList.remove("favorite");
+  localStorage.setItem("favorites", JSON.stringify(favoritesList));
+}
+
+function handleSearch(event) {
   event.preventDefault();
 
   fetchSeriesData();
-};
-
-searchButton.addEventListener("click", handleSearch);
-
-resetButton.addEventListener("click", handleReset);
+}
 
 function handleReset(event) {
   event.preventDefault();
@@ -122,7 +130,7 @@ function handleReset(event) {
   localStorage.removeItem("series");
 }
 
-function resetFavorites() {
+function handleResetFavorites() {
   favoritesList = [];
   renderFavorites(favoritesList);
   localStorage.removeItem("favorites");
@@ -132,18 +140,6 @@ function resetFavorites() {
   }
 }
 
-resetFavoritesButton.addEventListener("click", () => {
-  resetFavorites();
-});
-
-function getImageUrl(apiImageUrl) {
-  const missingImageUrl =
-    "https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png";
-  const placeholderImageUrl =
-    "https://via.placeholder.com/210x295/ffffff/666666/?text=TV";
-  if (apiImageUrl === missingImageUrl) {
-    return placeholderImageUrl;
-  } else {
-    return apiImageUrl;
-  }
-}
+searchButton.addEventListener("click", handleSearch);
+resetButton.addEventListener("click", handleReset);
+resetFavoritesButton.addEventListener("click", handleResetFavorites);
