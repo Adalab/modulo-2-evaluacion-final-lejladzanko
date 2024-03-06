@@ -57,11 +57,11 @@ body {
 .search,
 .reset,
 .reset-favorites {
-    padding: 12px 24px;
+    padding: 7px 28px;
     background-color: #16A491;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s ease;
