@@ -18,7 +18,7 @@ Sumérgete en el fascinante mundo del anime y descubre un universo repleto de sa
 - Haz clic en la serie para marcarla como tu favorita. 👑
 
 ## Construido Con 🛠️
--HTML 🖥️: La base que organiza el contenido de la web.
+- HTML 🖥️: La base que organiza el contenido de la web.
 - CSS 🎨: Los estilos que hacen que la web luzca visualmente atractiva.
 - JavaScript 🚀: El lenguaje de programación que añade interactividad y dinamismo a la página.
 - API Externa de Series de Anime 🌐: La fuente de datos que nos permite acceder a información sobre series de anime.
