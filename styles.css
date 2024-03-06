@@ -7,29 +7,29 @@
 body {
     background-color: #f8f8f8;
     color: #2f292b;
-    font-family: 'sans-serif';
-    font-weight: 400;
 }
 
 .wallpaper {
-    background-image: url('https://wallpapercave.com/wp/wp5535573.jpg');
+    background-image: url('./images/LKq6UQW.png');
     background-size: cover;
     background-position: center;
-    padding: 100px 20px;
+    height: 500px;
 }
 
 .main-container {
     max-width: 800px;
-    margin: 20px auto;
+    margin: -200px auto;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.9);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
+    font-family: "The Girl Next Door", 'Comic Sans MS', cursive;
+    font-size: 50px;
 }
 
 .page-title {
-    font-size: 36px;
-    color: #7C4DFF;
+    font-size: 50px;
+    color: #3F88C5;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -44,39 +44,43 @@ body {
 .search-text {
     padding: 10px;
     width: 40%;
-    border: 2px solid #7C4DFF;
+    border: 2px solid #97D8C4;
     border-radius: 5px;
     font-size: 18px;
-    transition: all 0.3s ease;
 }
 
 .search-text:focus {
     outline: none;
-    border-color: #9C27B0;
+    border-color: #97D8C4;
 }
 
 .search,
 .reset,
 .reset-favorites {
     padding: 12px 24px;
-    background-color: #7C4DFF;
+    background-color: #16A491;
     color: #fff;
     border: none;
     border-radius: 5px;
     font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-family: "The Girl Next Door", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
 }
 
 .search:hover,
 .reset:hover,
 .reset-favorites:hover {
-    background-color: #9C27B0;
+    background-color: #97D8C4;
 }
 
 .movies-container {
     display: flex;
     justify-content: space-between;
+    margin-top: 45px;
 }
 
 .results,
@@ -91,14 +95,26 @@ body {
 
 .title-series,
 .title-favorites {
-    font-size: 28px;
-    color: #FF8A65;
+    font-size: 35px;
+    color: #79B791;
     margin-bottom: 10px;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.movie-name{
+    font-family: 'sans-serif';
+    font-weight: 400;
+    font-size: 25px;
+    margin-top: 10px;
+    background-color: #3F88C5; 
+    margin: 10px 0; 
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+    width: 100%; 
 }
 
 .container-series,
 .container-favorites {
+    position: relative;
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -108,7 +124,7 @@ body {
     gap: 20px;
 }
 
-.favorite-item {
+.favorite-item, {
     position: relative;
 }
 
@@ -120,24 +136,35 @@ body {
     display: block;
 }
 
+.container-series img:hover, .container-favorites img:hover {
+    z-index: 2;
+    transform: scale(1.03); 
+    cursor: pointer;
+}
+
 .remove-favorite {
     position: absolute;
-    top: 0;
-    right: 0;
-    background-color: red;
+    top: 5px; 
+    right: 5px; 
+    background-color: #D32F2F; 
     color: white;
-    padding: 0 8px;
+    padding: 5px; 
     cursor: pointer;
-    border-radius: 3px;
-    border: 1px solid red;
+    border-radius: 50%; 
+    border: none;
+    width: 24px; 
+    height: 24px; 
+    transition: transform 0.2s ease, background-color 0.2s ease; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); 
 }
 
 .remove-favorite:hover {
-    background-color: #FF7043;
+    transform: scale(1.1); 
+    background-color: #F44336; 
 }
 
 .favorite {
-    border: 5px solid #E28413;
-    color: #FA7921;
+    border: 5px solid#208AAE;
+    color: white;
     border-radius: 10px;
 }

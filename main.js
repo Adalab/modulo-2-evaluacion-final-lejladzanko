@@ -38,7 +38,7 @@ function renderSeries(series){
     content += `
         <div class="series-item" data-id="${seriesItem.mal_id}" id="${seriesItem.mal_id}">
         <img src="${imageUrl}">
-                <h3>${seriesItem.title}</h3>
+              <h3 class="movie-name">${seriesItem.title}</h3>
             </div>
         `;
   }
@@ -57,7 +57,7 @@ function renderFavorites(favorites) {
     content += `
         <div class="favorite-item" data-id="${favorite.mal_id}">
           <img src="${imageUrl}">
-          <h3>${favorite.title}</h3>
+          <h3 class="movie-name">${favorite.title}</h3> 
           <button class="remove-favorite" data-id="${favorite.mal_id}">X</button>
         </div>
     `;
